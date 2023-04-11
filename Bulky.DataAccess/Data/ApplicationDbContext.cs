@@ -24,7 +24,13 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Product>().HasData(
+		modelBuilder.Entity<Category>().HasData(
+				new Category { Id = 1, Name = "Action", DisplayOrder = 1 },
+				new Category { Id = 2, Name = "SciFi", DisplayOrder = 2 },
+				new Category { Id = 3, Name = "History", DisplayOrder = 3 }
+				);
+
+		modelBuilder.Entity<Product>().HasData(
             new Product
             {
                 Id = 1,
@@ -36,7 +42,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                 Price = 90,
                 Price50 = 85,
                 Price100 = 80,
-                CategoryId = 1002,
+                CategoryId = 1,
                 ImageUrl = ""
             },
                 new Product
@@ -50,7 +56,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId=1002,
+                    CategoryId=2,
                     ImageUrl = ""
                 },
                 new Product
@@ -64,7 +70,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 50,
                     Price50 = 40,
                     Price100 = 35,
-                    CategoryId = 1002,
+                    CategoryId = 3,
                     ImageUrl = ""
                 },
                 new Product
@@ -78,7 +84,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 65,
                     Price50 = 60,
                     Price100 = 55,
-                    CategoryId = 1002,
+                    CategoryId = 1,
                     ImageUrl = ""
                 },
                 new Product
@@ -92,7 +98,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 27,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 1002,
+                    CategoryId = 2,
                     ImageUrl = ""
                 },
                 new Product
@@ -106,7 +112,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 23,
                     Price50 = 22,
                     Price100 = 20,
-                    CategoryId = 1002,
+                    CategoryId = 3,
                     ImageUrl = ""
                 });
     }

@@ -41,7 +41,7 @@ namespace Bulky.DataAccess.DbInitializer
 
             }
             //create roles if they are not created
-            if (!_roleManager.RoleExistsAsync(roleName: SD.Role_Customer).GetAwaiter().GetResult())
+            if (!_roleManager.RoleExistsAsync(SD.Role_Customer).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(roleName: SD.Role_Customer)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(roleName: SD.Role_Employee)).GetAwaiter().GetResult();
