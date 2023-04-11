@@ -33,12 +33,12 @@ namespace Bulky.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public string? City { get; set; }
+        public string City { get; set; }
         [Required]
-        public string? State { get; set; }
+        public string State { get; set; }
         [Required]
-        public string? PostalCode { get; set; }
+        public string PostalCode { get; set; }
         [Required]
-        public string? StreetAdress { get; set; }
+        public string StreetAdress { get; set; }
     }
 }

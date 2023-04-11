@@ -13,12 +13,16 @@ namespace Bulky.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-
-        public string? StreetAdress { get; set; }
-        public string? City { get; set; }
-        public string? State { get; set; }
-        public string? PostalCode { get; set; }
-        public string? PhoneNumber { get; set; }
+        [Required]
+        public string StreetAdress { get; set; }
+        [Required]
+        public string City { get; set; }
+        [Required]
+        public string State { get; set; }
+        [Required]
+        public string PostalCode { get; set; }
+        [Required]
+        public string PhoneNumber { get; set; }
     }
 }
     

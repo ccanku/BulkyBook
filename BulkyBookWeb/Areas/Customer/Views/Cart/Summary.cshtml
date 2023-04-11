@@ -26,6 +26,7 @@
 								</h4>
 							</div>
 							<div class="row my-1">
+								<div asp-validation-summary="All"></div>
 								<div class="col-3">
 									<label>Name</label>
 								</div>
@@ -39,7 +40,6 @@
 									<label>Phone</label>
 								</div>
 								<div class="col-9">
-									<input class="form-control" />
 									<input asp-for="OrderHeader.PhoneNumber" class="form-control" />
 									<span asp-validation-for="OrderHeader.PhoneNumber" class="danger"></span>
 								</div>
@@ -49,7 +49,6 @@
 									<label>Street Address</label>
 								</div>
 								<div class="col-9">
-									<input class="form-control" />
 									<input asp-for="OrderHeader.StreetAdress" class="form-control" />
 									<span asp-validation-for="OrderHeader.StreetAdress" class="danger"></span>
 								</div>
@@ -59,7 +58,6 @@
 									<label>City</label>
 								</div>
 								<div class="col-9">
-									<input class="form-control" />
 									<input asp-for="OrderHeader.City" class="form-control" />
 									<span asp-validation-for="OrderHeader.City" class="danger"></span>
 								</div>
@@ -69,7 +67,6 @@
 									<label>State</label>
 								</div>
 								<div class="col-9">
-									<input class="form-control" />
 									<input asp-for="OrderHeader.State" class="form-control" />
 									<span asp-validation-for="OrderHeader.State" class="danger"></span>
 								</div>
@@ -79,7 +76,6 @@
 									<label>Postal Code</label>
 								</div>
 								<div class="col-9">
-									<input class="form-control" />
 									<input asp-for="OrderHeader.PostalCode" class="form-control" />
 									<span asp-validation-for="OrderHeader.PostalCode" class="danger"></span>
 								</div>
@@ -128,3 +124,10 @@
 		</div>
 	</div>
 </form>
+
+
+@section Scripts{
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}
