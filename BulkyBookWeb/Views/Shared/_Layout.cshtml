@@ -29,9 +29,13 @@
                         <li class="nav-item">              
                                 <a class="nav-link text" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>                                                                
                         </li>
+                        @if (!string.IsNullOrEmpty(User.Identity.Name))
+                        {
                         <li class="nav-item">
                             <a class="nav-link text" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Orders</a>
                         </li>
+                        }
+                        
                         
                         @if (User.IsInRole(SD.Role_Admin))
                         {

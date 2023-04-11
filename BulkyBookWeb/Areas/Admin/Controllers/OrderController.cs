@@ -135,7 +135,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
         }
         [ActionName("Details")]
-        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Employee)]
+        [HttpPost]
         public IActionResult Details_PAY_NOW()
         {
             OrderVM.OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == OrderVM.OrderHeader.Id,
