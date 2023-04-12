@@ -26,7 +26,7 @@ namespace Bulky.DataAccess.DbInitializer
         public void Initialize()
         {
             //migrations if they are not applied
-            
+
             
 
             try
@@ -51,18 +51,22 @@ namespace Bulky.DataAccess.DbInitializer
                 //if roles are created, then create admin user
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "bulkyadmin",
+                    UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
                     Name = "admin",
-                    PhoneNumber = "1111111111",
-                    StreetAdress = "street",
-                    State = "state",
-                    PostalCode = "34",
-                    City = "ist"
-                }, "Admin123!").GetAwaiter().GetResult();
+                    PhoneNumber = "1112223333",
+                    StreetAdress = "test 123 Ave",
+                    State = "IL",
+                    PostalCode = "23422",
+                    City = "Chicago"
+                },password:"Admin123*").GetAwaiter().GetResult();
+
+
                 ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
+                
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
+
             return;
 
         }

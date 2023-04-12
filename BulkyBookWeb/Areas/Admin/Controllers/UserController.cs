@@ -26,8 +26,24 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult ManagePermission([FromBody] string id)
+        {
 
+            if(id == null)
+            {
+                return NotFound();
+            }
 
+            var userFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+
+            if(userFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View();
+        }
 
         #region API CALLS
         [HttpGet]
@@ -77,6 +93,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             return Json(new {success = true, message = "Operation Successful."});
         }
+
         #endregion
     }
 }
