@@ -18,8 +18,15 @@
             <select asp-for="UserRoleId" asp-items="@Model.RoleList" class="form-select">
             </select>
         </div>
+        @{
+            var companyVisible = "display:none";
+        }
+        @if (Model.UserRoleId == "ce381345-5107-4ae3-8c29-a9a9b5be3084")
+        {
+            companyVisible = "display:block";
+        }
         <div class="mb-3">
-            <select asp-for="UserCompanyId" style="display:none" asp-items="@Model.CompanyList" class="form-control">
+            <select asp-for="UserCompanyId" style="@companyVisible" asp-items="@Model.CompanyList" class="form-control">
             </select>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Change Permission</button>
