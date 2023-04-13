@@ -15,17 +15,15 @@
             <span asp-validation-for="User.Name" class="text-danger"></span>
         </div>
         <div class="mb-3">
-            <select asp-for="User.Role" asp-items="@Model.RoleList" class="form-select">
-                <option class="form-floating" selected></option>
+            <select asp-for="UserRoleId" asp-items="@Model.RoleList" class="form-select">
             </select>
         </div>
         <div class="mb-3">
-            <select asp-for="User.CompanyId" asp-items="@Model.CompanyList" class="form-control">
-                <option class="form-floating" selected></option>
+            <select asp-for="User.CompanyId" style="display:none" asp-items="@Model.CompanyList" class="form-control">
             </select>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Change Permission</button>
-        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">
+        <a asp-controller="User" asp-action="Index" class="btn btn-secondary" style="width:150px">
             Back to List
         </a>
     </div>
@@ -37,8 +35,8 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
-            $('#User_Role').change(function () {
-                var selection = $('#User_Role Option:Selected').text();
+            $('#UserRoleId').change(function () {
+                var selection = $('#UserRoleId Option:Selected').text();
                 if (selection == 'Company') {
                     $('#User_CompanyId').show();
                 }
