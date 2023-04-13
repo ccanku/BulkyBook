@@ -19,7 +19,7 @@
             </select>
         </div>
         <div class="mb-3">
-            <select asp-for="User.CompanyId" style="display:none" asp-items="@Model.CompanyList" class="form-control">
+            <select asp-for="UserCompanyId" style="display:none" asp-items="@Model.CompanyList" class="form-control">
             </select>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Change Permission</button>
@@ -38,10 +38,10 @@
             $('#UserRoleId').change(function () {
                 var selection = $('#UserRoleId Option:Selected').text();
                 if (selection == 'Company') {
-                    $('#User_CompanyId').show();
+                    $('#UserCompanyId').show();
                 }
                 else {
-                    $('#User_CompanyId').hide();
+                    $('#UserCompanyId').hide();
                 }
             })
         })
