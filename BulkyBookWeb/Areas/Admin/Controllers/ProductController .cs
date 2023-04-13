@@ -53,7 +53,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
             else
             {
-                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id,includeProperties:"ProductImages");
                 return View(productVM);
             }
         }
@@ -201,6 +201,29 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
+
+        public IActionResult DeleteImage(int imageId)
+        {
+            var imageToBeDeleted = _unitOfWork.ProductImage.Get(u => u.Id == imageId);
+            int productId = imageToBeDeleted.ProductId;
+            if (imageToBeDeleted != null)
+            {
+                if (!string.IsNullOrEmpty(imageToBeDeleted.ImageUrl))
+                {
+                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, imageToBeDeleted.ImageUrl.TrimStart('\\'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
+                _unitOfWork.ProductImage.Remove(imageToBeDeleted);
+                _unitOfWork.Save();
+                TempData["success"] = "Image succesfully deleted.";
+            }
+            return RedirectToAction(nameof(Upsert),new {id = productId});
+        }
+
         #region API CALLS
         [HttpGet]
         public IActionResult GetAll()
@@ -217,15 +240,30 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 return Json(new {success = "false", message = "Error while deleting."});    
             }
+            string productPath = @"images\products\product" + id;
+            string finalPath = Path.Combine(_webHostEnvironment.WebRootPath,productPath);
             //var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, productToBeDeleted.ImageUrl.TrimStart('\\'));
             //if (System.IO.File.Exists(oldImagePath))
             //{
             //    System.IO.File.Delete(oldImagePath);
             //}
+
+            if (Directory.Exists(finalPath))
+            {
+                string[] filePaths = Directory.GetFiles(finalPath);
+                foreach(var FilePath in  filePaths)
+                {
+                    System.IO.File.Delete(FilePath);
+                }
+                Directory.Delete(finalPath, true);
+            }
+
             _unitOfWork.Product.Remove(productToBeDeleted);
             _unitOfWork.Save();
             return Json(new {success="true",message = "Product succesfully deleted."});
         }
+
+       
         #endregion
     }
 }
