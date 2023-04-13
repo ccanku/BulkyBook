@@ -1,40 +1,52 @@
 ﻿@model ApplicationUserVM
 
-
-    <form method="post" asp-action="RoleManagement">
-    <input asp-for="User.Id" hidden />
-    <div class="border p-3 mt-4">
-        <div class="row pb-2">
-            <h2 class="text-primary">Manage Permission</h2>
-            <hr />
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Manage User Role</h2>
+            </div>
         </div>
-        <div asp-validation-summary="All"></div>
-        <div class="mb-3">
-            <label asp-for="User.Name"></label>
-            <input readonly asp-for="User.Name" class="form-control" />
-            <span asp-validation-for="User.Name" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <select asp-for="UserRoleId" asp-items="@Model.RoleList" class="form-select">
-            </select>
-        </div>
-        @{
-            var companyVisible = "display:none";
-        }
-        @if (Model.UserRoleId == "ce381345-5107-4ae3-8c29-a9a9b5be3084")
-        {
-            companyVisible = "display:block";
-        }
-        <div class="mb-3">
-            <select asp-for="UserCompanyId" style="@companyVisible" asp-items="@Model.CompanyList" class="form-control">
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:150px">Change Permission</button>
-        <a asp-controller="User" asp-action="Index" class="btn btn-secondary" style="width:150px">
-            Back to List
-        </a>
     </div>
-</form>
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            <input asp-for="User.Id" hidden />
+            <div class="border p-3">
+                @*<div asp-validation-summary="ModelOnly"></div>*@
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="User.Name" readonly class="form-control border-0 shadow" />
+                    <label asp-for="User.Name" class="ms-2"></label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <select asp-for="User.Role" asp-items="@Model.RoleList" class="form-select"></select>
+                </div>
+                @{
+                    var companyVisible = "display:none;";
+                }
+                @if (Model.User.Role == SD.Role_Company)
+                {
+                    companyVisible = "display:block;";
+                }
+                <div class="form-floating py-2 col-12">
+                    <select asp-for="User.CompanyId" style="@companyVisible" asp-items="@Model.CompanyList" class="form-select">
+                    </select>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">Update Role</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-action="Index" class="btn btn-outline-primary border  form-control">
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
 
@@ -42,13 +54,13 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
         $(document).ready(function () {
-            $('#UserRoleId').change(function () {
-                var selection = $('#UserRoleId Option:Selected').text();
+            $('#User_Role').change(function () {
+                var selection = $('#User_Role Option:Selected').text();
                 if (selection == 'Company') {
-                    $('#UserCompanyId').show();
+                    $('#User_CompanyId').show();
                 }
                 else {
-                    $('#UserCompanyId').hide();
+                    $('#User_CompanyId').hide();
                 }
             })
         })

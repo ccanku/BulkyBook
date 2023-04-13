@@ -12,10 +12,6 @@ namespace Bulky.Models.ViewModels
     {
         public ApplicationUser User { get; set;}
 
-        public string UserRoleId { get; set; }
-
-        public int? UserCompanyId { get; set; }
-
         public IEnumerable<SelectListItem> RoleList { get; set;}
 
         public IEnumerable<SelectListItem> CompanyList { get; set;}

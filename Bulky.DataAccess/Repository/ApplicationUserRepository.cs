@@ -16,5 +16,10 @@ namespace Bulky.DataAccess.Repository
         {
             _db = db;
         }
+
+        public void Update(ApplicationUser user)
+        {
+            _db.Update(user);
+        }
     }
 }
