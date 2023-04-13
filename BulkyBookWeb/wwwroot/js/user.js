@@ -26,7 +26,7 @@ function loadDataTable() {
                         <a onclick=LockUnlock('${data.id}') class = "btn btn-success text-white" style = "cursor:pointer">
                             <i class = "bi bi-unlock-fill"></i> Unlock
                         </a>
-                        <a href="/admin/user/ManagePermission?id=${data.id}" class = "btn btn-danger text-white" style = "cursor:pointer">
+                        <a href="/Admin/User/RoleManagement?userId=${data.id}" class = "btn btn-danger text-white" style = "cursor:pointer">
                             <i class = "bi bi-pencil-square"></i> Permission
                         </a>
                         </div>`
@@ -36,10 +36,11 @@ function loadDataTable() {
                         <a onclick=LockUnlock('${data.id}') class = "btn btn-danger text-white" style = "cursor:pointer">
                             <i class = "bi bi-unlock-fill"></i> Lock
                         </a>
-                        <a href="/admin/user/ManagePermission?id=${data.id}" class = "btn btn-danger text-white" style = "cursor:pointer">
+                        <a href="/Admin/User/RoleManagement?userId=${data.id}" class = "btn btn-danger text-white" style = "cursor:pointer">
                             <i class = "bi bi-pencil-square"></i> Permission
                         </a>
-                        </div>`
+                        </div>
+                        `
                     }
                     
                 },

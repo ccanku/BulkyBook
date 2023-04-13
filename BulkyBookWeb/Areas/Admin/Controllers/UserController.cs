@@ -16,6 +16,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
     {
 
         private readonly ApplicationDbContext _db;
+        [BindProperty]
+        private ApplicationUserVM ApplicationUserVM { get; set; }
 
         public UserController(ApplicationDbContext db)
         {
@@ -26,21 +28,47 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult ManagePermission([FromBody] string id)
+
+        public IActionResult RoleManagement(string? userId)
         {
 
-            if(id == null)
+            if(string.IsNullOrEmpty(userId))
             {
                 return NotFound();
             }
 
-            var userFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
+            var userFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == userId);
+
 
             if(userFromDb == null)
             {
                 return NotFound();
             }
+
+            ApplicationUserVM = new ApplicationUserVM()
+            {
+                User = userFromDb,
+                UserRoleId = _db.UserRoles.ToList().FirstOrDefault(u => u.UserId == userId).RoleId,
+                UserCompanyId = userFromDb.CompanyId,
+                RoleList = _db.Roles.Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                }),
+
+                CompanyList = _db.Companies.Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                })
+            };
+
+            return View(ApplicationUserVM);
+        }
+
+        [HttpPost]
+        public IActionResult RoleManagement() 
+        {
 
             return View();
         }
