@@ -50,7 +50,7 @@ builder.Services.AddAuthentication().AddFacebook(option =>
 builder.Services.AddAuthentication().AddMicrosoftAccount(option =>
 {
     option.ClientId = "f3457643-2f40-475f-a555-4c74210067d1";
-    option.ClientSecret = "e3544e19-64b1-4aa0-b152-ce99341d4862";
+    option.ClientSecret = "SNo8Q~GOjI5N21F4nhOOBC~tyTvIA3GR01jrGbcC";
 });
 
 var app = builder.Build();
