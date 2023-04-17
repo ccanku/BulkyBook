@@ -2494,11 +2494,6 @@ textarea.form-control-lg {
     box-shadow: 0 0 0 0.25rem rgba(26, 26, 26, 0.25);
 }
 
-.form-select[multiple], .form-select[size]:not([size="1"]) {
-    padding-right: 1.5rem;
-    background-image: none;
-}
-
 .form-select:disabled {
     background-color: #f7f7f9;
 }

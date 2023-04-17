@@ -15,6 +15,5 @@ namespace Bulky.Models
 
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
 
-        
     }
 }

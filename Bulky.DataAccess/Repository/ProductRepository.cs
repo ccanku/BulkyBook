@@ -25,7 +25,7 @@ namespace Bulky.DataAccess.Repository
             {
                 objFromDb.Title = product.Title;
                 objFromDb.Description = product.Description;
-                objFromDb.CategoryId = product.CategoryId;
+                objFromDb.ProductCategories = product.ProductCategories;
                 objFromDb.ISBN  = product.ISBN;
                 objFromDb.Author = product.Author;
                 objFromDb.ListPrice = product.ListPrice;

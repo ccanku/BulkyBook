@@ -20,7 +20,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public DbSet<OrderDetail> OrderDetails { get; set; }
     public DbSet<OrderHeader> OrderHeaders { get; set; }
     public DbSet<ProductImage> ProductImages { get; set; }
-
+    public DbSet<ProductCategory> ProductCategories { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -43,7 +43,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                 Price = 90,
                 Price50 = 85,
                 Price100 = 80,
-                CategoryId = 1,
                 
             },
                 new Product
@@ -57,7 +56,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId=2,
                     
                 },
                 new Product
@@ -71,7 +69,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 50,
                     Price50 = 40,
                     Price100 = 35,
-                    CategoryId = 3,
                     
                 },
                 new Product
@@ -85,7 +82,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 65,
                     Price50 = 60,
                     Price100 = 55,
-                    CategoryId = 1,
                     
                 },
                 new Product
@@ -98,8 +94,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     ListPrice = 30,
                     Price = 27,
                     Price50 = 25,
-                    Price100 = 20,
-                    CategoryId = 2,
+                    Price100 = 20
                     
                 },
                 new Product
@@ -113,7 +108,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
                     Price = 23,
                     Price50 = 22,
                     Price100 = 20,
-                    CategoryId = 3,
                     
                 });
     }

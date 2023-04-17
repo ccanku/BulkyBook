@@ -37,11 +37,8 @@ namespace Bulky.Models
         [Display(Name ="Price for 100+")]
         [Range(1,1000)]
         public double Price100 { get; set; }
-        public int CategoryId { get; set; }
-        [ForeignKey("CategoryId")]
         [ValidateNever]
-        public Category Category { get; set; }
-
+        public List<Category> ProductCategories { get; set; }
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
     }

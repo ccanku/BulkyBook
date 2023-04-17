@@ -40,7 +40,12 @@ namespace Bulky.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Categories");
 
@@ -48,21 +53,21 @@ namespace Bulky.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDateTime = new DateTime(2023, 4, 13, 12, 36, 47, 958, DateTimeKind.Local).AddTicks(328),
+                            CreatedDateTime = new DateTime(2023, 4, 17, 12, 14, 53, 622, DateTimeKind.Local).AddTicks(5230),
                             DisplayOrder = 1,
                             Name = "Action"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDateTime = new DateTime(2023, 4, 13, 12, 36, 47, 958, DateTimeKind.Local).AddTicks(340),
+                            CreatedDateTime = new DateTime(2023, 4, 17, 12, 14, 53, 622, DateTimeKind.Local).AddTicks(5241),
                             DisplayOrder = 2,
                             Name = "SciFi"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedDateTime = new DateTime(2023, 4, 13, 12, 36, 47, 958, DateTimeKind.Local).AddTicks(341),
+                            CreatedDateTime = new DateTime(2023, 4, 17, 12, 14, 53, 622, DateTimeKind.Local).AddTicks(5242),
                             DisplayOrder = 3,
                             Name = "History"
                         });
@@ -222,9 +227,6 @@ namespace Bulky.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -251,8 +253,6 @@ namespace Bulky.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
@@ -260,7 +260,6 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Billy Spark",
-                            CategoryId = 1,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SWD9999001",
                             ListPrice = 99.0,
@@ -273,7 +272,6 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Nancy Hoover",
-                            CategoryId = 2,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "CAW777777701",
                             ListPrice = 40.0,
@@ -286,7 +284,6 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Julian Button",
-                            CategoryId = 3,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "RITO5555501",
                             ListPrice = 55.0,
@@ -299,7 +296,6 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 4,
                             Author = "Abby Muscles",
-                            CategoryId = 1,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "WS3333333301",
                             ListPrice = 70.0,
@@ -312,7 +308,6 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 5,
                             Author = "Ron Parker",
-                            CategoryId = 2,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "SOTJ1111111101",
                             ListPrice = 30.0,
@@ -325,7 +320,6 @@ namespace Bulky.DataAccess.Migrations
                         {
                             Id = 6,
                             Author = "Laura Phantom",
-                            CategoryId = 3,
                             Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
                             ISBN = "FOT000000001",
                             ListPrice = 25.0,
@@ -334,6 +328,29 @@ namespace Bulky.DataAccess.Migrations
                             Price50 = 22.0,
                             Title = "Leaves and Wonders"
                         });
+                });
+
+            modelBuilder.Entity("Bulky.Models.ProductCategory", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("Bulky.Models.ProductImage", b =>
@@ -619,6 +636,13 @@ namespace Bulky.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("Bulky.Models.Category", b =>
+                {
+                    b.HasOne("Bulky.Models.Product", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("Bulky.Models.OrderDetail", b =>
                 {
                     b.HasOne("Bulky.Models.OrderHeader", "OrderHeader")
@@ -649,7 +673,7 @@ namespace Bulky.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("Bulky.Models.Product", b =>
+            modelBuilder.Entity("Bulky.Models.ProductCategory", b =>
                 {
                     b.HasOne("Bulky.Models.Category", "Category")
                         .WithMany()
@@ -657,7 +681,15 @@ namespace Bulky.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Bulky.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Bulky.Models.ProductImage", b =>
@@ -752,6 +784,8 @@ namespace Bulky.DataAccess.Migrations
 
             modelBuilder.Entity("Bulky.Models.Product", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("ProductImages");
                 });
 #pragma warning restore 612, 618

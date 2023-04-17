@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.JSInterop.Implementation;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
@@ -25,7 +26,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
+            IEnumerable<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
             
             return View(objProductList);
         }
@@ -40,6 +41,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     Value = u.Id.ToString()
                 });
             
+            CategoryList = new MultiSelectList(CategoryList,"Value","Text");
+
             ProductVM productVM = new()
             {
                 CategoryList = CategoryList,
@@ -75,15 +78,60 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                 ModelState.AddModelError("Custom Error", "Price should not be higher than List Price");
             }
             if (ModelState.IsValid)
-            {
+            {   
+                
+                if(obj.Product.ProductCategories == null)
+                {
+                    obj.Product.ProductCategories = new List<Category>();
+                }
+
                 if (obj.Product.Id == 0)
                 {
                     _unitOfWork.Product.Add(obj.Product);
+                    _unitOfWork.Save();
+
+                    foreach (var id in obj.CategoryIDs)
+                    {
+                        obj.Product.ProductCategories.Add(_unitOfWork.Category.Get(u=>u.Id == id));
+
+                        ProductCategory productCategory = new ProductCategory()
+                        {
+                            CategoryId = id,
+                            ProductId = obj.Product.Id
+                        };
+                        _unitOfWork.ProductCategory.Add(productCategory);
+                        _unitOfWork.Save();
+                    }
+                    
+                    
                 }
                 else
                 {
-                    _unitOfWork.Product.Update(obj.Product);
+                    var oldCategories = _unitOfWork.ProductCategory.GetAll(u => u.ProductId == obj.Product.Id);
+                    
+                    foreach(var oldCategory in oldCategories)
+                    {
+                        if (obj.CategoryIDs.Contains(oldCategory.CategoryId))
+                        {
+                            _unitOfWork.ProductCategory.Remove(oldCategory);
+                        }
+                        
+                    }
 
+                    foreach(var id in obj.CategoryIDs)
+                    {
+                        if(oldCategories.FirstOrDefault(u=>u.CategoryId == id)==null)
+                        {
+                            var productCategory = new ProductCategory()
+                            {
+                                CategoryId = id,
+                                ProductId = obj.Product.Id
+                            };
+                            _unitOfWork.ProductCategory.Add(productCategory);
+                        }
+                    }
+
+                    _unitOfWork.Product.Update(obj.Product);
                 }
                 _unitOfWork.Save();
 
@@ -228,7 +276,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties:"Category").ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
             return Json(new {data = objProductList});
         }
 
