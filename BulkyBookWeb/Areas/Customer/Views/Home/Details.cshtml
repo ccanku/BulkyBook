@@ -131,7 +131,18 @@
                             </div>
                         </div>
                     </div>
-
+                    <nav class="nav nav-text">
+                        @if (Model.Product.ProductCategories != null)
+                        {
+                            @foreach (var productCategory in Model.Product.ProductCategories)
+                            {   
+                                <li class="nav-item">
+                                    <a asp-area="Customer" asp-action="Index" asp-route-categoryId="@productCategory.CategoryId">@productCategory.Category.Name  
+                                    </a>
+                                </li>                        
+                            }
+                        }
+                    </nav>
                 </div>
             </div>
         </div>

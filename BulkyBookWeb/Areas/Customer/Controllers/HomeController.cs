@@ -57,7 +57,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
                 Count = 1,
                 ProductId = productId
         };
-            
+            cart.Product.ProductCategories = _unitOfWork.ProductCategory.GetAll(u=>u.ProductId==cart.ProductId,includeProperties: "Category").ToList();
             return View(cart);
         }
 
