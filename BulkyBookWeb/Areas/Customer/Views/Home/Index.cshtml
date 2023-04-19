@@ -1,5 +1,5 @@
 ﻿@model HomeVM
-
+<nav class="navbar navbar-text">
     @foreach (var category in Model.CategoryList)
     {
         <li class="nav-item">
@@ -7,6 +7,8 @@
         </li>
     }
     <a class="nav-link text" asp-action="Index">All categories</a>
+</nav>
+    
 
     
 
