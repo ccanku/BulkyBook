@@ -147,9 +147,12 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 if (files != null)
-                {   
-
-                    foreach(IFormFile file in files)
+                {
+                    if (obj.Product.ProductImages == null)
+                    {
+                        obj.Product.ProductImages = new List<ProductImage>();
+                    }
+                    foreach (IFormFile file in files)
                     {
                         string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                         string ProductPath = @"images\products\product-" + obj.Product.Id;
@@ -163,18 +166,17 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                         {
                             file.CopyTo(fileStream);
                         }
+                       
 
                         ProductImage productImage = new ProductImage()
                         {
                             ImageUrl = @"\" + ProductPath + @"\" + fileName,
-                            ProductId = obj.Product.Id
+                            ProductId = obj.Product.Id,
+                            DisplayOrder = obj.Product.ProductImages.Count()
 
                         };
 
-                        if(obj.Product.ProductImages == null)
-                        {
-                            obj.Product.ProductImages = new List<ProductImage>();
-                        }
+                        
                         obj.Product.ProductImages.Add(productImage);
 
                     }

@@ -18,5 +18,6 @@ namespace Bulky.Models
         [ForeignKey("ProductId")]
         public Product Product { get; set; }
         
+        public int DisplayOrder { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         
         public IActionResult Minus(int cartId)
         {
-            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
+            var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId,tracked:true);
             if (cartFromDb.Count <= 1)
             {
                 HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.

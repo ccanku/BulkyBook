@@ -51,13 +51,14 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         
         public IActionResult Details(int productId)
         {
+            
             ShoppingCart cart = new()
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "ProductImages"),
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "ProductImages,ProductCategories.Category"),
                 Count = 1,
                 ProductId = productId
         };
-            cart.Product.ProductCategories = _unitOfWork.ProductCategory.GetAll(u=>u.ProductId==cart.ProductId,includeProperties: "Category").ToList();
+             
             return View(cart);
         }
 
