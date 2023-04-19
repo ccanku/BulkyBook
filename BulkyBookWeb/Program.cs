@@ -8,6 +8,7 @@ using Bulky.Utility;
 using Stripe;
 using Bulky.DataAccess.DbInitializer;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender,EmailSender>();
 
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
-
+builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Identity/Account/Login";

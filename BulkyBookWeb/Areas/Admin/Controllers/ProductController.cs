@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.JSInterop.Implementation;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
@@ -56,7 +58,13 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
             else
             {
-                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id,includeProperties:"ProductImages");
+                productVM.CategoryIDs = new List<int>();
+                Product productFromDb = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "ProductImages,ProductCategories");
+                productVM.Product = productFromDb;
+                foreach(var productCategory in productFromDb.ProductCategories)
+                {
+                    productVM.CategoryIDs.Add(productCategory.CategoryId);
+                }
                 return View(productVM);
             }
         }
@@ -92,7 +100,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
                     foreach (var id in obj.CategoryIDs)
                     {
-                        
 
                         ProductCategory productCategory = new ProductCategory()
                         {
@@ -121,7 +128,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
                     foreach(var id in obj.CategoryIDs)
                     {
-                        if(oldCategories.FirstOrDefault(u=>u.CategoryId == id)==null)
+                        if(!oldCategories.Where(u=>u.CategoryId == id).Any())
                         {
                             var productCategory = new ProductCategory()
                             {
@@ -129,6 +136,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                                 ProductId = obj.Product.Id
                             };
                             _unitOfWork.ProductCategory.Add(productCategory);
+                            obj.Product.ProductCategories.Add(productCategory) ;
+                            _unitOfWork.Save();
                         }
                     }
 
@@ -277,7 +286,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll().ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties:"ProductCategories").ToList();
+            
             return Json(new {data = objProductList});
         }
 
