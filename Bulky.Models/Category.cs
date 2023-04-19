@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bulky.Models
@@ -14,6 +15,8 @@ namespace Bulky.Models
         public int DisplayOrder { get; set; }
 
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+        [ValidateNever]
+        public List<ProductCategory> ProductCategories { get; set; }
 
     }
 }

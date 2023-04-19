@@ -54,15 +54,11 @@
                             <label asp-for="Product.Price100" class="ms-2"></label>
                             <span asp-validation-for="Product.Price100" class="text-danger"></span>
                         </div>
-                        <div>
-                            Select Categories
-                        </div>
-                        <div id="categorydiv" heigh="300px" width="100px">
-                           <label id ="CategoryIDs">
-
+                        <div id="categorydiv" style="width:900px" class="py-5">
+                           <label id ="labelcategoryid">
                                 @*@Html.ListBoxFor(model => model.CategoryIDs,new MultiSelectList(Model.CategoryList,"Value","Text"),
                                 new {@class="CategoryIDs",multiple="multiple",id="CategoryIDs"})*@
-                                <select asp-for="CategoryIDs" asp-items="@Model.CategoryList" multiple="multiple" height="300px" width="100px" id="CategoryIDs"  class="CategoryIDs">
+                                <select asp-for="CategoryIDs" asp-items="@Model.CategoryList" multiple="multiple" style="width:900px" id="CategoryIDs" class="CategoryIDs py-5">
                                 </select>
                            </label>
                             
@@ -116,15 +112,15 @@
 @section Scripts{
     <script>
 
-        $('#CategoryIDs').select2({
-            dropdownParent: $('#categorydiv'),
-            placeholder: 'Select a category'
-        });
-
         $(document).ready(function () {
-            $('.CategoryIDs').select2();
+            $('.CategoryIDs').select2({
+                dropdownParent: $('#categorydiv'),
+                placeholder: "Select categories",
+                allowClear : true
+            });
         });
 
+        
 
         tinymce.init({
             selector: 'textarea',

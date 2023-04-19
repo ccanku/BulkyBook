@@ -1,7 +1,17 @@
-﻿@model IEnumerable<Product>
+﻿@model HomeVM
+
+    @foreach (var category in Model.CategoryList)
+    {
+        <li class="nav-item">
+            <a class="nav-link text" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name </a>
+        </li>
+    }
+    <a class="nav-link text" asp-action="Index">All categories</a>
+
+    
 
 <div class="row pb-3">
-    @foreach(var product in Model)
+    @foreach(var product in Model.ProductList)
     {
         <div class="col-lg-3 col-sm-6">
             <div class="row p-2">

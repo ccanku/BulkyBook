@@ -82,7 +82,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                 
                 if(obj.Product.ProductCategories == null)
                 {
-                    obj.Product.ProductCategories = new List<Category>();
+                    obj.Product.ProductCategories = new List<ProductCategory>();
                 }
 
                 if (obj.Product.Id == 0)
@@ -92,13 +92,14 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
                     foreach (var id in obj.CategoryIDs)
                     {
-                        obj.Product.ProductCategories.Add(_unitOfWork.Category.Get(u=>u.Id == id));
+                        
 
                         ProductCategory productCategory = new ProductCategory()
                         {
                             CategoryId = id,
                             ProductId = obj.Product.Id
                         };
+                        obj.Product.ProductCategories.Add(productCategory);
                         _unitOfWork.ProductCategory.Add(productCategory);
                         _unitOfWork.Save();
                     }

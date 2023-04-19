@@ -5,6 +5,7 @@ using Bulky.DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Bulky.Utility;
+using Bulky.Models.ViewModels;
 
 namespace BulkyBookWeb.Areas.Customer.Controllers
 {
@@ -20,11 +21,32 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? categoryId)
         {
-            IEnumerable<Product> ProductList = _unitOfWork.Product
-                .GetAll(includeProperties:"ProductImages");
-            return View(ProductList);
+            List<Product> ProductList = new List<Product>();
+            IEnumerable<Category> CategoryList = _unitOfWork.Category.GetAll(includeProperties:"ProductCategories");
+            if (categoryId != null)
+            {
+               var categoryFromDb = _unitOfWork.Category.Get(u => u.Id == categoryId,includeProperties:"ProductCategories");
+               foreach(var productcategory in categoryFromDb.ProductCategories)
+                {
+                    var productFromDb = _unitOfWork.Product.Get(u => u.Id == productcategory.ProductId,includeProperties:"ProductImages,ProductCategories");
+                    ProductList.Add(productFromDb);
+                }
+            }
+            else
+            {
+                ProductList = _unitOfWork.Product
+                .GetAll(includeProperties: "ProductImages,ProductCategories").ToList();
+            }
+            
+            HomeVM HomeVM = new HomeVM()
+            {
+                ProductList = ProductList,
+                CategoryList = CategoryList
+            };
+
+            return View(HomeVM);
         }
         
         public IActionResult Details(int productId)

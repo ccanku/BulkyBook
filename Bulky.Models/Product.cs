@@ -38,7 +38,7 @@ namespace Bulky.Models
         [Range(1,1000)]
         public double Price100 { get; set; }
         [ValidateNever]
-        public List<Category> ProductCategories { get; set; }
+        public List<ProductCategory> ProductCategories { get; set; }
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
     }
