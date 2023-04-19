@@ -1,17 +1,15 @@
 ﻿@model HomeVM
-<nav class="navbar navbar-text">
-    @foreach (var category in Model.CategoryList)
-    {
-        <li class="nav-item">
-            <a class="nav-link text" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name </a>
-        </li>
-    }
-    <a class="nav-link text" asp-action="Index">All categories</a>
+<nav class="navbar navbar-expand bg-opacity-100 w-100" style="background-color:aquamarine">
+    <div class="collapse navbar-collapse">
+        @foreach (var category in Model.CategoryList)
+        {
+            <a class="nav-link text nav-item" asp-action="Index" asp-route-categoryId="@category.Id">@category.Name </a>
+        }
+        <a class="nav-link offset-8" asp-action="Index">All categories</a>
+    </div>
+    
 </nav>
     
-
-    
-
 <div class="row pb-3">
     @foreach(var product in Model.ProductList)
     {

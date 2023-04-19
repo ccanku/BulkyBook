@@ -34,15 +34,14 @@
                         </li>
                         @if (!string.IsNullOrEmpty(User.Identity.Name))
                         {
+                            
+                        }
+                        @if(User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Orders</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text" asp-area="Admin" asp-controller="User" asp-action="Index">User List</a>
-                            </li>
                         }
-
-
                         @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
@@ -67,6 +66,10 @@
 
 
                     </ul>
+                    <form asp-area="Customer" asp-controller="Home" asp-action="Index" class="form-inline my-2 my-lg-0">
+                        <input name="searchString" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -85,10 +88,23 @@
     <script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" asp-append-version="true"></script>
 
     <script src="https://cdn.tiny.cloud/1/g28lhnxtlihu4l4a381gw7tz47voznshwbi10lmsvlekrfme/tinymce/6/tinymce.min.js" referrerpolicy="origin">
-        @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(function () {
+            $('#f_search input').keydown(function (e) {
+
+                var searchTerm = $("#ipt_search").val();
+
+                if (searchTerm == "" && event.keyCode === 13) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        })
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

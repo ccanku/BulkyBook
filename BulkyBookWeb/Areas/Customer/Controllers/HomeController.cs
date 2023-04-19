@@ -21,10 +21,11 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index(int? categoryId)
+        public IActionResult Index(int? categoryId,string? searchString)
         {
             List<Product> ProductList = new List<Product>();
             IEnumerable<Category> CategoryList = _unitOfWork.Category.GetAll(includeProperties:"ProductCategories");
+
             if (categoryId != null)
             {
                var categoryFromDb = _unitOfWork.Category.Get(u => u.Id == categoryId,includeProperties:"ProductCategories");
@@ -38,6 +39,10 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             {
                 ProductList = _unitOfWork.Product
                 .GetAll(includeProperties: "ProductImages,ProductCategories").ToList();
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    ProductList = ProductList.Where(s => s.Title.Contains(searchString,StringComparison.CurrentCultureIgnoreCase)).ToList();
+                }
             }
             
             HomeVM HomeVM = new HomeVM()
@@ -48,7 +53,8 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
             return View(HomeVM);
         }
-        
+
+
         public IActionResult Details(int productId)
         {
             
@@ -99,5 +105,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
     }
 }
